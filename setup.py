@@ -64,6 +64,7 @@ setup(
         ]
     },
     install_requires=[
-        'pycryptodome'
+        'pycryptodome',
+        'msgpack-python'
     ]
 )
