@@ -14,12 +14,13 @@ class Application(tk.Frame):
         self.path_key_text = None
         self.passphrase_text = None
 
-        self.commands = StringVar(master, "midori -a /usr/local/share/app/index.html -e Fullscreen")
+        self.commands_default = "midori -a /usr/local/share/app/index.html -e Fullscreen"
+        self.commands_text = None
+
         self.extract_folder = StringVar(master, "/usr/local/share/app")
         self.autostart = StringVar(master, "/home/DG2R/.config/lxsession/LXDE/autostart")
 
         self.create_widgets()
-
 
     def create_widgets(self):
         """
@@ -44,21 +45,34 @@ class Application(tk.Frame):
             .grid(row=5, columnspan=4, sticky=W)
 
         Button(self.master, text="Parcourir", command=self.load_private_key).grid(row=6, column=0, sticky=W)
-        self.path_text = StringVar(self.master, "Aucun fichier sélectionné")
-        Label(self.master, textvariable=self.path_text).grid(row=6, column=1, columnspan=3, sticky=W)
+        self.path_key_text = StringVar(self.master, "Aucun fichier sélectionné")
+        Label(self.master, textvariable=self.path_key_text).grid(row=6, column=1, columnspan=3, sticky=W)
 
         Label(self.master, text="Passphrase :").grid(row=7, column=0, sticky=W + E)
-        Entry(self.master).grid(row=7, column=1, columnspan=3, sticky=W + E, textvariable=self.passphrase_text)
+        Entry(self.master, textvariable=self.passphrase_text).grid(row=7, column=1, columnspan=3, sticky=W + E)
 
-        ttk.Separator(self.master).grid(row=4, columnspan=4, sticky=E + W, pady=10)
+        ttk.Separator(self.master).grid(row=8, columnspan=4, sticky=E + W, pady=10)
 
         Label(self.master, text="Commandes au démarrage") \
-            .grid(row=5, columnspan=4, sticky=W)
-        Text(self.master, textvariable=self.commands).grid(row=7, column=1, columnspan=3, rowspan=2, sticky=W + E)
+            .grid(row=9, columnspan=4, sticky=W)
+        self.commands_text: Text = Text(self.master, height=3, width=60, wrap=NONE)
+        self.commands_text.insert(INSERT, self.commands_default)
+        self.commands_text.grid(row=10, column=0, columnspan=4, rowspan=3, sticky=W + E)
+
+        Label(self.master, text="Dossier d'extraction").grid(row=13, column=0, sticky=W, pady=10)
+        Entry(self.master, textvariable=self.extract_folder).grid(row=13, column=1, sticky=W + E)
+
+        Label(self.master, text="Chemin du fichier d'autodémarrage").grid(row=14, column=0, sticky=W, pady=10)
+        Entry(self.master, textvariable=self.autostart).grid(row=14, column=1, columnspan=3, sticky=W + E)
+
+        ttk.Separator(self.master).grid(row=15, columnspan=4, sticky=E + W, pady=10)
+
+        Button(self.master, text="Créer le fichier de mise à jour",
+               command=self.create_update).grid(row=16, columnspan=4, sticky=W + E)
 
     def load_folder(self):
         """
-        Charge un fichier de données afin de démarrer le plot
+        Displays a window which asks for the application folder
         """
 
         fname = askdirectory(initialdir=(os.path.dirname(os.path.realpath(__file__))
@@ -69,10 +83,9 @@ class Application(tk.Frame):
             self.path_text.set("Dossier chargé : {}".format(fname))
             self.master.update()
 
-
     def load_private_key(self):
         """
-        Charge un fichier de données afin de démarrer le plot
+        Displays a window which asks for the private key's location
         """
 
         fname = askopenfilename(initialdir=os.path.dirname(os.path.realpath(__file__)), title="Choisissez un dossier")
@@ -81,6 +94,11 @@ class Application(tk.Frame):
             self.path_key_text.set("Dossier chargé : {}".format(fname))
             self.master.update()
 
+    def create_update(self):
+        """
+        Begins the update creation procedure
+        """
+        return
 
 
 def launch_gui():

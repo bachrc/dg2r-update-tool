@@ -49,6 +49,7 @@ setup(
         # that you indicate whether you support Python 2, Python 3 or both.
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
     ],
 
     # What does your project relate to?
@@ -61,5 +62,8 @@ setup(
         'console_scripts': [
             'dg2r_update_tool = update_tool.__main__:main'
         ]
-    }
+    },
+    install_requires=[
+        'pycryptodome'
+    ]
 )
