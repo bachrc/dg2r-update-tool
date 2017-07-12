@@ -1,9 +1,10 @@
 import sys
 import os
-from setuptools import find_packages
-from cx_Freeze import setup, Executable
+from setuptools import setup, find_packages
 from codecs import open
 from os import path
+
+import py2exe
 
 os.environ['TCL_LIBRARY'] = "C:\\Users\\ybach\\AppData\\Local\\Programs\\Python\\Python35\\tcl\\tcl8.6"
 os.environ['TK_LIBRARY'] = "C:\\Users\\ybach\\AppData\\Local\\Programs\\Python\\Python35\\tcl\\tk8.6"
@@ -13,21 +14,6 @@ here = path.abspath(path.dirname(__file__))
 # Get the long description from the README file
 with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
-
-build_exe_options = {
-    "packages": [
-        "tkinter",
-        "Crypto",
-        "msgpack",
-        "update_tool"
-    ],
-    "includes": [
-    ]
-}
-
-base = None
-if sys.platform == "win32":
-    base = "Win32GUI"
 
 setup(
     name='DG2R Armadillo Update Tool',
@@ -87,12 +73,14 @@ setup(
         'pycryptodome',
         'msgpack-python'
     ],
-    options={"build_exe": build_exe_options},
-    executables=[
-        Executable(
-            script="update_tool/__main__.py",
-            base=base,
-            targetName="Updatetool.exe"
-        )
-    ]
+    windows=[{
+        'script': 'update_tool/__main__.py'
+    }],
+    options={
+        "py2exe": {
+            "includes": ["tkinter", "filedialog", "os"],
+            'bundle_files': 1,
+            'compressed': False
+        }
+    }
 )

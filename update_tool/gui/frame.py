@@ -65,7 +65,7 @@ class Application(tk.Frame):
 
         Label(self.master, text="Commandes au démarrage") \
             .grid(row=9, columnspan=4, sticky=W)
-        self.commands_text: Text = Text(self.master, height=3, width=60, wrap=NONE)
+        self.commands_text = Text(self.master, height=3, width=60, wrap=NONE)
         self.commands_text.insert(INSERT, self.commands_default)
         self.commands_text.grid(row=10, column=0, columnspan=4, rowspan=3, sticky=W + E)
 
