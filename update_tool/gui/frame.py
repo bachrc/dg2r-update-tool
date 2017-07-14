@@ -24,7 +24,10 @@ class Application(tk.Frame):
         self.path_update = None
         self.path_key = None
 
-        self.commands_default = "midori -a /usr/local/share/app/index.html -e Fullscreen"
+        self.commands_default = """lxpanel --profile LXDE
+pcmanfm --desktop --profile LXDE
+setxkbmap -layout "fr" -option "grp:alt_shift_toggle & "
+midori -a /usr/local/share/app/index.html -e Fullscreen" """
         self.commands_text = None
 
         self.extract_folder = StringVar(master, "/usr/local/share/app")
