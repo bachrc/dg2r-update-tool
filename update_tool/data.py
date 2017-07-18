@@ -3,6 +3,7 @@ import os
 import zipfile
 from contextlib import closing
 import msgpack
+import pickle
 
 
 def zip_from_folder(basedir):
@@ -37,4 +38,5 @@ class UpdateObject:
         }
 
         stream = open(target, "wb")
-        msgpack.pack(payload, stream=stream)
+
+        pickle.dump(payload, stream)

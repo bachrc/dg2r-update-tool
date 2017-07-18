@@ -1,3 +1,4 @@
+import base64
 import os
 import tkinter as tk
 import traceback
@@ -143,8 +144,9 @@ midori -a /usr/local/share/app/index.html -e Fullscreen" """
             f = filedialog.asksaveasfilename(defaultextension=".dg2r", filetypes=[("Fichier de mise à jour", ".dg2r")],
                                              initialfile="UPDATE.dg2r")
 
-            to_save = UpdateObject(zipfile.getvalue(), signed_zip, self.commands_text.get("1.0", 'end-1c'),
-                                   self.extract_folder.get(), self.autostart.get())
+            to_save = UpdateObject(zipfile, signed_zip,
+                                   self.commands_text.get("1.0", 'end-1c'), self.extract_folder.get(),
+                                   self.autostart.get())
             to_save.save(f)
 
             messagebox.showinfo("Fichier créé !", "Fichier de mise à jour créé avec succès ! Mettez le sur une clé USB")
